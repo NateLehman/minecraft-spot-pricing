@@ -380,6 +380,8 @@ Resources:
           Environment:
             - Name: "EULA"
               Value: "TRUE"
+            - Name: "GAMEMODE"
+              Value: "survival"
             - !If
               - AdminPlayerNamesProvided
               - Name: "OPS"
@@ -392,7 +394,7 @@ Resources:
               - !Ref 'AWS::NoValue'
             - !If
               - WhitelistProvided
-              - Name: "WHITELIST"
+              - Name: "WHITE_LIST_USERS"
                 Value: !Sub "${Whitelist}"
               - !Ref 'AWS::NoValue'
 
