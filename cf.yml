@@ -55,10 +55,6 @@ Parameters:
     Description: "Java version (Examples include latest, adopt13, openj9, etc) Refer to tag descriptions available here: https://github.com/itzg/docker-minecraft-bedrock-server)"
     Default: 'latest'
 
-  MinecraftTypeTag:
-    Type: String
-    Description: "(Examples include SPIGOT, BUKKIT, TUINITY, etc) Refer to tag descriptions available here: https://github.com/itzg/docker-minecraft-bedrock-server)"
-
   AdminPlayerNames:
     Type: String
     Description: Op/Administrator Players
@@ -67,7 +63,7 @@ Parameters:
   Difficulty:
     Type: String
     Description: Examples include peaceful, easy (default), normal, and hard
-    Default: ''
+    Default: 'normal'
 
   Whitelist:
     Type: String
@@ -90,7 +86,6 @@ Metadata:
       - Label:
           default: Optional Server Settings
         Parameters:
-        - MinecraftTypeTag
         - AdminPlayerNames
         - Difficulty
         - Whitelist
@@ -114,8 +109,6 @@ Metadata:
         default: "Maximum spot price per hour? Leave blank to disable spot pricing."
       MinecraftImageTag:
         default: "Which version of Minecraft do you want to launch?"
-      MinecraftTypeTag:
-        default: "Which type of Minecraft do you want to launch?"
       AdminPlayerNames:
         default: "A comma delimited list (no spaces) of player names to be admins"
       Difficulty:
@@ -134,7 +127,6 @@ Metadata:
         default: "If you have a hosted zone in Route 53 and wish to set a DNS record whenever your Minecraft instance starts, supply a record name here (e.g. minecraft.mydomain.com)."
 
 Conditions:
-  MinecraftTypeTagProvided: !Not [ !Equals [ !Ref MinecraftTypeTag, '' ] ]
   AdminPlayerNamesProvided: !Not [ !Equals [ !Ref AdminPlayerNames, '' ] ]
   DifficultyProvided: !Not [ !Equals [ !Ref Difficulty, '' ] ]
   WhitelistProvided: !Not [ !Equals [ !Ref Whitelist, '' ] ]
@@ -380,7 +372,7 @@ Resources:
           PortMappings:
           - ContainerPort: 19132
             HostPort: 19132
-            Protocol: tcp
+            Protocol: udp
           MountPoints:
           - ContainerPath: /data
             SourceVolume: minecraft
@@ -388,11 +380,6 @@ Resources:
           Environment:
             - Name: "EULA"
               Value: "TRUE"
-            - !If
-              - MinecraftTypeTagProvided
-              - Name: "TYPE"
-                Value: !Sub "${MinecraftTypeTag}"
-              - !Ref 'AWS::NoValue'
             - !If
               - AdminPlayerNamesProvided
               - Name: "OPS"
