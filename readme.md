@@ -1,3 +1,6 @@
+> **Note**
+> This fork ports the original CF to deploy a Minecraft Bedrock Edition server. I am not maintaining this port.
+
 # Complete Minecraft Server Deployment (CloudFormation)
 
 The template contained within this repository can be used to deploy a Minecraft server to Amazon Web Services (AWS) in minutes. As the solution leverages "Spot Pricing", the server should cost less than a cent an hour to run, and you can even turn it off when you and your friends aren't playing - saving even more money.
